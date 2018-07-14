@@ -18,14 +18,14 @@ driver = webdriver.PhantomJS()
 
 class AppointmentBooked(Exception): pass
 
-def look_for_appointments():
+def look_for_appointments(office_id):
     
     driver.get(form_url)
     WebDriverWait(driver, 120).until(EC.presence_of_element_located((By.ID, "app_content")))
 
     # Enter form data
-    office_id = Select(driver.find_element_by_name('officeId'))
-    office_id.select_by_value(config.OFFICE_ID)
+    office = Select(driver.find_element_by_name('officeId'))
+    office.select_by_value(office_id)
     driver.find_element_by_id(config.NUMBERITEMS).click()
     for reason in config.REASONS_FOR_VISIT:
         driver.find_element_by_id(reason).click()
@@ -64,11 +64,14 @@ def look_for_appointments():
         raise AppointmentBooked
     else:
         print(f"Sorry, the earliest appointment is {appt_date_time} which isn't your target date of {tgt_date}")
-        time.sleep(5)
         
 try:
+    offices = [config.OFFICE_ID] if type(config.OFFICE_ID) == "string" else config.OFFICE_ID
     while True:
-        look_for_appointments()
+        for office in config.OFFICE_ID:
+            print ("Office: %s" % office)
+            look_for_appointments(office)
+        time.sleep(5)
 except AppointmentBooked:
     pass
     
