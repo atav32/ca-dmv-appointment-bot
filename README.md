@@ -21,9 +21,7 @@ Anyone can cancel a DMV appointment anytime without any retribution so it's easy
 * `$ virtualenv env`
 * `$ source env/bin/activate`
 * `$ pip install -r requirements.txt`
-* Open up `config_sample.py` and set your variables
-* Save as `config.py` 
-* `$ python book_dmv.py`
+* `$ python book_dmv.py` with arguments
 * Wait for an appointment to open up.
 
 ## Notes
